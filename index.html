@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#4f46e5" />
+  <meta name="description" content="OrganizaColégio — organize suas atividades escolares em um só lugar." />
+  <title>OrganizaColégio · Dashboard</title>
+
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" sizes="180x180" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Organiza" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Ícones (sprite SVG) -->
+  <svg class="svg-sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-cap" viewBox="0 0 24 24">
+      <path d="M22 9 12 4 2 9l10 5 10-5Z" />
+      <path d="M6 11.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.5" />
+      <path d="M22 9v6" />
+    </symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24">
+      <rect x="3" y="3" width="7" height="7" rx="1.6" />
+      <rect x="14" y="3" width="7" height="7" rx="1.6" />
+      <rect x="14" y="14" width="7" height="7" rx="1.6" />
+      <rect x="3" y="14" width="7" height="7" rx="1.6" />
+    </symbol>
+    <symbol id="i-tasks" viewBox="0 0 24 24">
+      <rect x="4" y="4" width="16" height="17" rx="3" />
+      <path d="M9 3.5h6" />
+      <path d="m8.5 12 2.3 2.3 4.7-4.6" />
+    </symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24">
+      <rect x="3" y="5" width="18" height="16" rx="3" />
+      <path d="M8 3v4M16 3v4M3 10.5h18" />
+      <path d="M8 15h.01M12 15h.01M16 15h.01M8 18h.01M12 18h.01" />
+    </symbol>
+    <symbol id="i-check-circle" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" />
+      <path d="m8.3 12.2 2.6 2.6 4.8-5" />
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24">
+      <path d="M20 6 9 17l-5-5" />
+    </symbol>
+    <symbol id="i-search" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-3.6-3.6" />
+    </symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24">
+      <path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9" />
+      <path d="M10 21h4" />
+    </symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24">
+      <path d="M4 7h16M4 12h16M4 17h16" />
+    </symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24">
+      <path d="M12 5v14M5 12h14" />
+    </symbol>
+    <symbol id="i-download" viewBox="0 0 24 24">
+      <path d="M12 3v12" />
+      <path d="m7 10 5 5 5-5" />
+      <path d="M5 21h14" />
+    </symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5.2l3.2 2" />
+    </symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24">
+      <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" />
+      <path d="M12 9v4.5" />
+      <path d="M12 17.5h.01" />
+    </symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24">
+      <path d="M5 12h14M13 6l6 6-6 6" />
+    </symbol>
+    <symbol id="i-arrow-up-right" viewBox="0 0 24 24">
+      <path d="M7 17 17 7M8 7h9v9" />
+    </symbol>
+    <symbol id="i-sparkles" viewBox="0 0 24 24">
+      <path d="m12 3 1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8L12 3Z" />
+      <path d="M19 15.5 19.9 18l2.5.9-2.5.9-.9 2.5-.9-2.5-2.5-.9 2.5-.9.9-2.5Z" />
+    </symbol>
+    <symbol id="i-more" viewBox="0 0 24 24">
+      <circle cx="5" cy="12" r="1.4" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none" />
+      <circle cx="19" cy="12" r="1.4" fill="currentColor" stroke="none" />
+    </symbol>
+    <symbol id="i-x" viewBox="0 0 24 24">
+      <path d="M6 6l12 12M18 6 6 18" />
+    </symbol>
+    <symbol id="i-inbox" viewBox="0 0 24 24">
+      <path d="M4 13h4l1.5 3h5L16 13h4" />
+      <path d="M5.5 5h13L21 13v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4l2.5-8Z" />
+    </symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24">
+      <path d="M12 20h9" />
+      <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+    </symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24">
+      <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" />
+      <path d="M10 11v6M14 11v6" />
+    </symbol>
+    <symbol id="i-rotate" viewBox="0 0 24 24">
+      <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
+      <path d="M3 3v5h5" />
+    </symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24">
+      <path d="m15 18-6-6 6-6" />
+    </symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24">
+      <path d="m9 18 6-6-6-6" />
+    </symbol>
+  </svg>
+
+  <div class="app">
+    <!-- Menu lateral -->
+    <aside class="sidebar" id="sidebar" aria-label="Menu principal">
+      <a class="brand" href="index.html" id="brandLink">
+        <span class="brand-mark">
+          <svg class="icon"><use href="#i-cap"></use></svg>
+        </span>
+        <span class="brand-text">
+          <strong>Organiza</strong>
+          <span>Colégio</span>
+        </span>
+      </a>
+
+      <nav class="nav" aria-label="Navegação">
+        <span class="nav-label">Menu</span>
+
+        <button class="nav-item active" type="button" data-view="dashboard" aria-current="page">
+          <span class="nav-icon"><svg class="icon"><use href="#i-grid"></use></svg></span>
+          Dashboard
+        </button>
+
+        <button class="nav-item" type="button" data-view="atividades">
+          <span class="nav-icon"><svg class="icon"><use href="#i-tasks"></use></svg></span>
+          Minhas atividades
+          <span class="nav-badge" id="pendingBadge">0</span>
+        </button>
+
+        <button class="nav-item" type="button" data-view="calendario">
+          <span class="nav-icon"><svg class="icon"><use href="#i-calendar"></use></svg></span>
+          Calendário
+        </button>
+
+        <button class="nav-item" type="button" data-view="concluidas">
+          <span class="nav-icon"><svg class="icon"><use href="#i-check-circle"></use></svg></span>
+          Concluídas
+        </button>
+      </nav>
+
+      <div class="sidebar-card">
+        <div class="sc-head">
+          <svg class="icon"><use href="#i-sparkles"></use></svg>
+          <span>Semana produtiva</span>
+        </div>
+        <strong class="sc-value" id="sidePct">0%</strong>
+        <span class="sc-label">das tarefas concluídas</span>
+        <div class="sc-bar"><span id="sideBar" style="width:0%"></span></div>
+        <span class="sc-foot" id="sideFoot">Nenhuma tarefa ainda</span>
+      </div>
+
+      <button class="install-btn" id="installBtn" type="button" hidden>
+        <svg class="icon"><use href="#i-download"></use></svg>
+        <span>Instalar aplicativo</span>
+      </button>
+
+      <div class="sidebar-foot">
+        <span class="online-dot"></span>
+        Dados salvos neste dispositivo
+      </div>
+    </aside>
+
+    <div class="scrim" id="scrim" aria-hidden="true"></div>
+
+    <!-- Conteúdo principal -->
+    <div class="main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false">
+            <svg class="icon"><use href="#i-menu"></use></svg>
+          </button>
+          <div class="page-title">
+            <span class="crumb" id="pageCrumb">Painel do estudante</span>
+            <h1 id="pageTitle">Dashboard</h1>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <label class="search" for="searchInput">
+            <svg class="icon"><use href="#i-search"></use></svg>
+            <input id="searchInput" type="search" placeholder="Buscar próximas atividades..." autocomplete="off" />
+          </label>
+
+          <div class="notif-wrap">
+            <button class="icon-btn" id="notifBtn" type="button" aria-label="Notificações" aria-expanded="false" aria-controls="notifPopover">
+              <svg class="icon"><use href="#i-bell"></use></svg>
+            </button>
+
+            <div class="popover" id="notifPopover" hidden>
+              <div class="notif-head">
+                <strong>Notificações</strong>
+                <span class="notif-count" id="notifCount">0</span>
+              </div>
+              <div class="notif-body" id="notifBody"></div>
+              <div class="notif-foot">
+                <button class="link-btn" type="button" id="notifSeeAll">
+                  Ver minhas atividades
+                  <svg class="icon"><use href="#i-arrow-right"></use></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="user-chip">
+            <div class="avatar">
+              AC
+              <span class="avatar-status" aria-hidden="true"></span>
+            </div>
+            <div class="user-info">
+              <strong>Ana Clara</strong>
+              <span>9º ano · Manhã</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content">
+        <!-- ============================ DASHBOARD ============================ -->
+        <section class="view" id="view-dashboard">
+          <section class="welcome">
+            <div class="welcome-text">
+              <p class="welcome-kicker">
+                <span class="pulse-dot" aria-hidden="true"></span>
+                <span id="todayLabel">Sexta-feira, 30 de outubro</span>
+              </p>
+              <h2>Olá, Ana <span class="wave" aria-hidden="true">👋</span></h2>
+              <p class="welcome-sub" id="welcomeSub">Nenhuma atividade cadastrada. Que tal começar agora?</p>
+            </div>
+
+            <button class="btn primary add-btn" id="addBtn" type="button" data-add>
+              <svg class="icon"><use href="#i-plus"></use></svg>
+              Nova atividade
+            </button>
+          </section>
+
+          <section class="stats" aria-label="Resumo de tarefas">
+            <article class="stat">
+              <div class="stat-head">
+                <span class="stat-icon indigo"><svg class="icon"><use href="#i-tasks"></use></svg></span>
+                <span class="stat-label">Total de tarefas</span>
+              </div>
+              <strong class="stat-value" id="statTotal">0</strong>
+              <span class="stat-note" id="statTotalNote">nenhuma atividade ainda</span>
+            </article>
+
+            <article class="stat">
+              <div class="stat-head">
+                <span class="stat-icon emerald"><svg class="icon"><use href="#i-check-circle"></use></svg></span>
+                <span class="stat-label">Concluídas</span>
+              </div>
+              <strong class="stat-value" id="statDone">0</strong>
+              <span class="stat-note good" id="statDoneNote">0% do total</span>
+            </article>
+
+            <article class="stat">
+              <div class="stat-head">
+                <span class="stat-icon amber"><svg class="icon"><use href="#i-clock"></use></svg></span>
+                <span class="stat-label">Pendentes</span>
+              </div>
+              <strong class="stat-value" id="statPending">0</strong>
+              <span class="stat-note" id="statPendingNote">nada para hoje</span>
+            </article>
+
+            <article class="stat">
+              <div class="stat-head">
+                <span class="stat-icon rose"><svg class="icon"><use href="#i-alert"></use></svg></span>
+                <span class="stat-label">Atrasadas</span>
+              </div>
+              <strong class="stat-value" id="statLate">0</strong>
+              <span class="stat-note" id="statLateNote">tudo em dia</span>
+            </article>
+          </section>
+
+          <div class="dashboard-grid">
+            <section class="panel upcoming-panel" aria-labelledby="upcomingTitle">
+              <div class="panel-head">
+                <div>
+                  <h3 id="upcomingTitle">Próximas atividades</h3>
+                  <p class="panel-sub" id="upcomingSub">Nenhuma tarefa pendente</p>
+                </div>
+                <div class="chips" role="group" aria-label="Filtrar próximas atividades">
+                  <button class="chip active" type="button" data-filter="todas">Todas</button>
+                  <button class="chip" type="button" data-filter="hoje">Hoje</button>
+                  <button class="chip" type="button" data-filter="semana">Semana</button>
+                </div>
+              </div>
+
+              <div class="activity-list" id="activityList"></div>
+
+              <div class="panel-foot">
+                <button class="link-btn" id="seeAllBtn" type="button">
+                  Ver todas as atividades
+                  <svg class="icon"><use href="#i-arrow-right"></use></svg>
+                </button>
+              </div>
+            </section>
+
+            <aside class="side-col">
+              <section class="panel progress-panel" aria-labelledby="progressTitle">
+                <div class="panel-head">
+                  <div>
+                    <h3 id="progressTitle">Seu progresso</h3>
+                    <p class="panel-sub">Nesta semana</p>
+                  </div>
+                  <span class="tag-soft" id="progressTag" title="Concluídas nos últimos 7 dias">+0</span>
+                </div>
+
+                <div class="ring-wrap">
+                  <div class="ring" id="progressRing" role="img" aria-label="Nenhuma tarefa concluída">
+                    <div class="ring-inner">
+                      <strong id="progressValue">0%</strong>
+                      <span>concluído</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="legend">
+                  <div class="legend-row">
+                    <span class="legend-dot done" aria-hidden="true"></span>
+                    Concluídas
+                    <strong id="legendDone">0</strong>
+                  </div>
+                  <div class="legend-row">
+                    <span class="legend-dot pending" aria-hidden="true"></span>
+                    Pendentes
+                    <strong id="legendPending">0</strong>
+                  </div>
+                  <div class="legend-row">
+                    <span class="legend-dot late" aria-hidden="true"></span>
+                    Atrasadas
+                    <strong id="legendLate">0</strong>
+                  </div>
+                </div>
+
+                <p class="progress-note">
+                  <svg class="icon"><use href="#i-sparkles"></use></svg>
+                  <span id="progressNoteText">Adicione atividades para acompanhar seu progresso.</span>
+                </p>
+              </section>
+
+              <section class="panel subjects-panel" aria-labelledby="subjectsTitle">
+                <div class="panel-head">
+                  <div>
+                    <h3 id="subjectsTitle">Progresso por matéria</h3>
+                    <p class="panel-sub">Concluídas por matéria</p>
+                  </div>
+                </div>
+
+                <div class="subject-list" id="subjectList"></div>
+              </section>
+            </aside>
+          </div>
+        </section>
+
+        <!-- ========================= MINHAS ATIVIDADES ========================= -->
+        <section class="view" id="view-atividades" hidden>
+          <div class="view-head">
+            <div>
+              <p class="view-kicker">Organização</p>
+              <h2>Minhas atividades</h2>
+              <p class="view-sub">Acompanhe prazos, prioridades e conclusões.</p>
+            </div>
+            <button class="btn primary" type="button" data-add>
+              <svg class="icon"><use href="#i-plus"></use></svg>
+              Nova atividade
+            </button>
+          </div>
+
+          <section class="panel list-panel" aria-labelledby="activitiesTitle">
+            <div class="panel-head">
+              <div>
+                <h3 id="activitiesTitle">Todas as atividades</h3>
+                <p class="panel-sub" id="activitiesSub">0 atividades</p>
+              </div>
+              <div class="chips" role="group" aria-label="Filtrar por situação">
+                <button class="chip active" type="button" data-activity-filter="todas">Todas</button>
+                <button class="chip" type="button" data-activity-filter="pendentes">Pendentes</button>
+                <button class="chip" type="button" data-activity-filter="concluidas">Concluídas</button>
+              </div>
+            </div>
+
+            <div class="activity-list" id="activitiesList"></div>
+          </section>
+        </section>
+
+        <!-- ============================ CALENDÁRIO ============================ -->
+        <section class="view" id="view-calendario" hidden>
+          <div class="view-head">
+            <div>
+              <p class="view-kicker">Planejamento</p>
+              <h2>Calendário</h2>
+              <p class="view-sub">Visualize seus prazos e organize a rotina.</p>
+            </div>
+            <button class="btn primary" type="button" data-add>
+              <svg class="icon"><use href="#i-plus"></use></svg>
+              Nova atividade
+            </button>
+          </div>
+
+          <div class="calendar-layout">
+            <section class="panel calendar-panel" aria-labelledby="calendarTitle">
+              <div class="calendar-head">
+                <div>
+                  <h3 id="calendarTitle">Outubro de 2026</h3>
+                  <p class="panel-sub">Clique em um dia para ver as atividades</p>
+                </div>
+                <div class="calendar-nav">
+                  <button class="icon-btn small" type="button" id="prevMonth" aria-label="Mês anterior">
+                    <svg class="icon"><use href="#i-chevron-left"></use></svg>
+                  </button>
+                  <button class="btn ghost small-btn" type="button" id="todayBtn">Hoje</button>
+                  <button class="icon-btn small" type="button" id="nextMonth" aria-label="Próximo mês">
+                    <svg class="icon"><use href="#i-chevron-right"></use></svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="cal-weekdays" aria-hidden="true">
+                <span>Dom</span>
+                <span>Seg</span>
+                <span>Ter</span>
+                <span>Qua</span>
+                <span>Qui</span>
+                <span>Sex</span>
+                <span>Sáb</span>
+              </div>
+
+              <div class="cal-grid" id="calendarGrid" role="grid" aria-label="Calendário de atividades"></div>
+            </section>
+
+            <section class="panel calendar-side" aria-labelledby="dayTitle">
+              <div class="panel-head">
+                <div>
+                  <h3 id="dayTitle">Atividades do dia</h3>
+                  <p class="panel-sub" id="daySub">Selecione um dia no calendário</p>
+                </div>
+              </div>
+
+              <div class="activity-list" id="calendarDayList"></div>
+
+              <div class="panel-foot" id="dayFoot" hidden>
+                <button class="link-btn" type="button" id="addOnDayBtn">
+                  Adicionar atividade neste dia
+                  <svg class="icon"><use href="#i-plus"></use></svg>
+                </button>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <!-- ============================ CONCLUÍDAS ============================ -->
+        <section class="view" id="view-concluidas" hidden>
+          <div class="view-head">
+            <div>
+              <p class="view-kicker">Histórico</p>
+              <h2>Concluídas</h2>
+              <p class="view-sub">Tudo o que você já finalizou.</p>
+            </div>
+            <button class="btn primary" type="button" data-add>
+              <svg class="icon"><use href="#i-plus"></use></svg>
+              Nova atividade
+            </button>
+          </div>
+
+          <section class="panel list-panel" aria-labelledby="completedTitle">
+            <div class="panel-head">
+              <div>
+                <h3 id="completedTitle">Atividades concluídas</h3>
+                <p class="panel-sub" id="completedSub">0 atividades</p>
+              </div>
+            </div>
+
+            <div class="activity-list" id="completedList"></div>
+          </section>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Menu de ações da atividade -->
+  <div class="action-menu" id="actionMenu" role="menu" hidden>
+    <button type="button" role="menuitem" data-action="edit">
+      <svg class="icon"><use href="#i-edit"></use></svg>
+      Editar
+    </button>
+    <button type="button" role="menuitem" data-action="toggle">
+      <svg class="icon" id="actionToggleIcon"><use href="#i-check"></use></svg>
+      <span id="actionToggleLabel">Concluir</span>
+    </button>
+    <button type="button" role="menuitem" class="danger" data-action="delete">
+      <svg class="icon"><use href="#i-trash"></use></svg>
+      Excluir
+    </button>
+  </div>
+
+  <!-- Modal de atividade -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <div>
+          <h2 id="modalTitle">Nova atividade</h2>
+          <p id="modalSubtitle">Organize o que precisa ser feito.</p>
+        </div>
+        <button class="icon-btn" type="button" data-close aria-label="Fechar">
+          <svg class="icon"><use href="#i-x"></use></svg>
+        </button>
+      </div>
+
+      <form id="activityForm">
+        <label class="field">
+          <span>Título</span>
+          <input id="inputTitle" name="titulo" type="text" placeholder="Ex.: Resumo de História" required maxlength="80" />
+        </label>
+
+        <div class="field-row">
+          <label class="field">
+            <span>Matéria</span>
+            <select id="inputSubject" name="materia" required>
+              <option value="">Selecione...</option>
+              <option>Matemática</option>
+              <option>Português</option>
+              <option>Biologia</option>
+              <option>História</option>
+              <option>Geografia</option>
+              <option>Química</option>
+              <option>Física</option>
+              <option>Inglês</option>
+              <option>Filosofia</option>
+              <option>Sociologia</option>
+              <option>Artes</option>
+              <option>Outro</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Tipo</span>
+            <select id="inputType" name="tipo" required>
+              <option value="">Selecione...</option>
+              <option>Trabalho</option>
+              <option>Prova</option>
+              <option>Exercício</option>
+              <option>Resumo</option>
+              <option>Apresentação</option>
+              <option>Leitura</option>
+              <option>Pesquisa</option>
+              <option>Outro</option>
+            </select>
+          </label>
+        </div>
+
+        <label class="field">
+          <span>Entrega</span>
+          <input id="inputDate" name="data" type="date" required />
+        </label>
+
+        <div class="field">
+          <span class="field-label">Prioridade</span>
+          <div class="segmented">
+            <label>
+              <input type="radio" name="prioridade" value="baixa" />
+              <span>Baixa</span>
+            </label>
+            <label>
+              <input type="radio" name="prioridade" value="media" checked />
+              <span>Média</span>
+            </label>
+            <label>
+              <input type="radio" name="prioridade" value="alta" />
+              <span>Alta</span>
+            </label>
+          </div>
+        </div>
+
+        <label class="field">
+          <span>Descrição <em>(opcional)</em></span>
+          <textarea id="inputNotes" name="descricao" rows="3" maxlength="500" placeholder="Adicione detalhes, páginas ou links..."></textarea>
+        </label>
+
+        <div class="modal-actions">
+          <button class="btn ghost" type="button" data-close>Cancelar</button>
+          <button class="btn primary" type="submit" id="submitBtn">Adicionar atividade</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal de exclusão -->
+  <div class="modal" id="deleteModal" aria-hidden="true">
+    <div class="modal-card small" role="dialog" aria-modal="true" aria-labelledby="deleteTitle">
+      <div class="modal-head">
+        <div>
+          <h2 id="deleteTitle">Excluir atividade?</h2>
+          <p>Essa ação não pode ser desfeita.</p>
+        </div>
+        <button class="icon-btn" type="button" data-close-delete aria-label="Fechar">
+          <svg class="icon"><use href="#i-x"></use></svg>
+        </button>
+      </div>
+
+      <p class="confirm-text">
+        Você vai excluir <strong id="deleteName">esta atividade</strong> da sua lista.
+      </p>
+
+      <div class="modal-actions">
+        <button class="btn ghost" type="button" data-close-delete>Cancelar</button>
+        <button class="btn danger" type="button" id="confirmDelete">
+          <svg class="icon"><use href="#i-trash"></use></svg>
+          Excluir
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
